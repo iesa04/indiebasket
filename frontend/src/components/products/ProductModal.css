@@ -1,0 +1,196 @@
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(3px);
+}
+
+/* Modal Box */
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 0.25rem;
+  transition: transform 0.2s ease;
+}
+.modal-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Image Section */
+.modal-image-side {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.modal-thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  overflow-x: auto;
+}
+
+.modal-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s;
+}
+.modal-thumbnail:hover {
+  border-color: #4CAF50;
+}
+
+/* Info Section */
+.modal-info-side {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow-y: auto;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.modal-brand {
+  font-size: 1rem;
+  color: #777;
+}
+
+.modal-price-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.modal-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2ecc71;
+}
+
+.modal-original-price {
+  text-decoration: line-through;
+  color: #aaa;
+  font-size: 1.1rem;
+}
+
+.modal-discount-badge {
+  background-color: #2ecc71;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.modal-unit {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Stock */
+.modal-stock {
+  font-weight: 500;
+}
+.modal-stock.in {
+  color: #4CAF50;
+}
+.modal-stock.out {
+  color: #f44336;
+}
+
+/* Sections */
+.modal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+  margin: 0;
+}
+
+.modal-description {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.modal-product-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+  background: #f0f0f0;
+  padding: 0.4rem;
+  border-radius: 4px;
+  word-break: break-word;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-box {
+    flex-direction: column;
+  }
+  .modal-image-side,
+  .modal-info-side {
+    padding: 1.25rem;
+  }
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  .modal-price {
+    font-size: 1.4rem;
+  }
+}
