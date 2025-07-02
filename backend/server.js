@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://indiebasket-frontend.onrender.com',
   credentials: true
 }));
 app.use(express.json());
