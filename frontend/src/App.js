@@ -69,11 +69,21 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      await fetch('https://indiebasket.onrender.com/api/logout', {
+      const response = await fetch('https://indiebasket.onrender.com/api/logout', {
         method: 'POST',
         credentials: 'include'
       });
-      window.location.replace('/');  // This will do a full replace without history entry
+      
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+      
+      // Clear local state
+      setUser(null);
+      
+      // Force full page reload to ensure all state is cleared
+      window.location.href = '/';
+      
     } catch (error) {
       setError('Logout failed');
     }
