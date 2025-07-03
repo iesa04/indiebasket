@@ -210,17 +210,28 @@ app.get('/api/auth', authenticate, async (req, res) => {
 app.post('/api/logout', (req, res) => {
   try {
     res.clearCookie('token', {
+      path: '/',
+      domain: 'indiebasket.onrender.com', // Exact domain (no leading dot)
       httpOnly: true,
-      secure: true, // Must match how cookie was set
-      sameSite: 'none', // Must match how cookie was set
-      domain: 'indiebasket.onrender.com' // Important for cross-subdomain clearing
+      secure: true,
+      sameSite: 'none'
     });
+    
+    // Alternative method that sometimes works better
+    res.cookie('token', '', {
+      path: '/',
+      domain: 'indiebasket.onrender.com',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      expires: new Date(0) // Immediately expire
+    });
+    
     res.json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
     handleError(res, error);
   }
 });
-
 
 // Admin Routes - User Management
 app.get('/api/users', authenticate, adminOnly, async (req, res) => {
