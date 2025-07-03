@@ -209,7 +209,12 @@ app.get('/api/auth', authenticate, async (req, res) => {
 
 app.post('/api/logout', (req, res) => {
   try {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: true, // Must match how cookie was set
+      sameSite: 'none', // Must match how cookie was set
+      domain: '.onrender.com' // Important for cross-subdomain clearing
+    });
     res.json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
     handleError(res, error);
