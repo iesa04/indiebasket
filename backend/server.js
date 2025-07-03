@@ -16,8 +16,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Middleware
 app.use(cors({
   origin: 'https://indiebasket-frontend.onrender.com',
-  credentials: true,
-  exposedHeaders: ['set-cookie']
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -171,10 +170,13 @@ app.post('/api/login', async (req, res) => {
 
     res.cookie('token', user._id.toString(), {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: 'none',
-      secure: true
+      secure: true,
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: '/',
+      domain: 'indiebasket.onrender.com'  // ⬅️ Add this
     });
+
 
     res.json({ 
       _id: user._id,
@@ -215,9 +217,10 @@ app.post('/api/logout', (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: 'None',
-      domain: 'indiebasket.onrender.com',
-      path: '/',  // Very important
+      path: '/',
+      domain: 'indiebasket.onrender.com'
     });
+
 
     res.status(200).json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
