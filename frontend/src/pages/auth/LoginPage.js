@@ -27,21 +27,25 @@ const LoginPage = ({ onLogin }) => {
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
-      
+  
+      // Update App state
       onLogin(data);
-      
-      // Redirect based on role
-      if (data.role === 'customer') {
-        navigate('/');
-      } else {
-        navigate(`/${data.role}`);
-      }
+  
+      // Delay redirect for all roles (cookie needs time to persist)
+      setTimeout(() => {
+        if (data.role === 'customer') {
+          navigate('/');
+        } else {
+          navigate(`/${data.role}`);
+        }
+      }, 200); // 100–200ms is safe
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="login-container">
