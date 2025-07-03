@@ -68,40 +68,47 @@ function App() {
   };
 
   const handleLogout = async () => {
-    try {
-      // First try the proper logout endpoint
-      const response = await fetch('https://indiebasket.onrender.com/api/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-  
-      if (!response.ok) {
-        throw new Error('Logout failed');
+  try {
+    // API logout call
+    const response = await fetch('https://indiebasket.onrender.com/api/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
-  
-      // Manual cookie deletion as fallback
-      document.cookie = 'token=; path=/; domain=indiebasket.onrender.com; ' + 
-        'expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=none';
-  
-      // Clear all application state
-      setUser(null);
-      localStorage.clear();
-      sessionStorage.clear();
-  
-      // Force full reload with cache busting
-      window.location.href = '/?logout=' + Date.now();
-  
-    } catch (error) {
-      console.error('Logout error:', error);
-      // Fallback to manual cleanup if API fails
-      document.cookie = 'token=; path=/; domain=indiebasket.onrender.com; ' + 
-        'expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=none';
-      window.location.href = '/';
-    }
-  };
+    });
+
+    if (!response.ok) throw new Error('Logout API failed');
+
+    // Manual cookie deletion (client-side fallback)
+    document.cookie = 'token=; path=/; domain=indiebasket.onrender.com; ' + 
+      'expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=none';
+
+    // Clear all application state
+    setUser(null);
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Force full page reload with cache busting
+    window.location.href = '/?logout=' + Date.now();
+
+  } catch (error) {
+    console.error('Logout error:', error);
+    
+    // Emergency fallback - brute force cleanup
+    document.cookie.split(';').forEach(c => {
+      document.cookie = c.trim().split('=')[0] + '=;' + 
+        'expires=Thu, 01 Jan 1970 00:00:00 GMT;' + 
+        'path=/;' + 
+        'domain=indiebasket.onrender.com;' +
+        'secure;' +
+        'samesite=none';
+    });
+    
+    window.location.href = '/';
+  }
+};
 
   if (loading) {
     return <LoadingSpinner />;
