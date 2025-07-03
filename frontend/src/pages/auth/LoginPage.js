@@ -38,7 +38,7 @@ const LoginPage = ({ onLogin }) => {
         } else {
           navigate(`/${data.role}`);
         }
-      }, 200); // 100–200ms is safe
+      }, 1000); // 100–200ms is safe
     } catch (err) {
       setError(err.message);
     } finally {
