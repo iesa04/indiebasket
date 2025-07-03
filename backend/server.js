@@ -16,7 +16,8 @@ mongoose.connect(process.env.MONGODB_URI)
 // Middleware
 app.use(cors({
   origin: 'https://indiebasket-frontend.onrender.com',
-  credentials: true
+  credentials: true,
+  exposedHeaders: ['set-cookie']
 }));
 app.use(express.json());
 app.use(cookieParser());
