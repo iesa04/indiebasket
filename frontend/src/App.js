@@ -69,23 +69,37 @@ function App() {
 
   const handleLogout = async () => {
     try {
+      // First try the proper logout endpoint
       const response = await fetch('https://indiebasket.onrender.com/api/logout', {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-      
+  
       if (!response.ok) {
         throw new Error('Logout failed');
       }
-      
-      // Clear local state
+  
+      // Manual cookie deletion as fallback
+      document.cookie = 'token=; path=/; domain=indiebasket.onrender.com; ' + 
+        'expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=none';
+  
+      // Clear all application state
       setUser(null);
-      
-      // Force full page reload to ensure all state is cleared
-      window.location.href = '/';
-      
+      localStorage.clear();
+      sessionStorage.clear();
+  
+      // Force full reload with cache busting
+      window.location.href = '/?logout=' + Date.now();
+  
     } catch (error) {
-      setError('Logout failed');
+      console.error('Logout error:', error);
+      // Fallback to manual cleanup if API fails
+      document.cookie = 'token=; path=/; domain=indiebasket.onrender.com; ' + 
+        'expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=none';
+      window.location.href = '/';
     }
   };
 
