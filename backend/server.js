@@ -210,30 +210,16 @@ app.get('/api/auth', authenticate, async (req, res) => {
 
 app.post('/api/logout', (req, res) => {
   try {
-    // Method 1: Clear cookie
+    // Must match cookie options exactly as when set
     res.clearCookie('token', {
-      path: '/',
-      domain: 'indiebasket.onrender.com',
       httpOnly: true,
       secure: true,
-      sameSite: 'none'
-    });
-
-    // Method 2: Set expired cookie (double protection)
-    res.cookie('token', '', {
-      path: '/',
+      sameSite: 'None',
       domain: 'indiebasket.onrender.com',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      expires: new Date(0)
+      path: '/',  // Very important
     });
 
-    // Method 3: Additional headers for cross-domain
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Origin', 'https://indiebasket-frontend.onrender.com');
-    
-    res.json({ success: true, message: 'Logged out successfully' });
+    res.status(200).json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
     handleError(res, error);
   }
