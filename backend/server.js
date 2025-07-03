@@ -126,7 +126,7 @@ app.post('/api/signup', async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       sameSite: 'none',
-      secure: process.env.NODE_ENV === 'production'
+      secure: true
     });
 
     // Return user data without sensitive information
@@ -172,7 +172,7 @@ app.post('/api/login', async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: 'none',
-      secure: process.env.NODE_ENV === 'production'
+      secure: true
     });
 
     res.json({ 
